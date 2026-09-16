@@ -72,7 +72,6 @@ export interface Config {
     categories: Category;
     brands: Brand;
     products: Product;
-    fields: Field;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -85,7 +84,6 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
-    fields: FieldsSelect<false> | FieldsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -491,135 +489,6 @@ export interface Product {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * koleksiyon bazında yardımcı metin
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "fields".
- */
-export interface Field {
-  id: number;
-  /**
-   * field bazında yardımcı metin
-   */
-  title: string;
-  status?: ('draft' | 'published') | null;
-  price: number;
-  publishedAt?: string | null;
-  detailText: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  featuredImage: number | Media;
-  faqItems?:
-    | {
-        question: string;
-        answer?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
-  layout?:
-    | (
-        | {
-            heading?: string | null;
-            content?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textBlock';
-          }
-        | {
-            image?: (number | null) | Media;
-            caption?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'imageBlock';
-          }
-      )[]
-    | null;
-  jsonData?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * şube açılış kapanış saatleri
-   */
-  workingHours?: {
-    opening?: string | null;
-    closing?: string | null;
-  };
-  heading?: string | null;
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  metaTitle?: string | null;
-  metaDescription?: string | null;
-  sample_grp?: {
-    sample_one?: string | null;
-    sample_two?: string | null;
-  };
-  mainColor: string;
-  secondColor: string;
-  language: string;
-  secondLanguage?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -662,10 +531,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
-      } | null)
-    | ({
-        relationTo: 'fields';
-        value: number | Field;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -884,68 +749,6 @@ export interface ProductsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "fields_select".
- */
-export interface FieldsSelect<T extends boolean = true> {
-  title?: T;
-  status?: T;
-  price?: T;
-  publishedAt?: T;
-  detailText?: T;
-  featuredImage?: T;
-  faqItems?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
-  layout?:
-    | T
-    | {
-        textBlock?:
-          | T
-          | {
-              heading?: T;
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        imageBlock?:
-          | T
-          | {
-              image?: T;
-              caption?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
-  jsonData?: T;
-  workingHours?:
-    | T
-    | {
-        opening?: T;
-        closing?: T;
-      };
-  heading?: T;
-  body?: T;
-  metaTitle?: T;
-  metaDescription?: T;
-  sample_grp?:
-    | T
-    | {
-        sample_one?: T;
-        sample_two?: T;
-      };
-  mainColor?: T;
-  secondColor?: T;
-  language?: T;
-  secondLanguage?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
